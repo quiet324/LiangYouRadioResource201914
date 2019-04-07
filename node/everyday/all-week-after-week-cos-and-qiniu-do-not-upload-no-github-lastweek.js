@@ -15,12 +15,12 @@ var deasync = require('deasync');
 
 var rule = new schedule.RecurrenceRule();
 // rule.dayOfWeek = [0, new schedule.Range(4, 6)];
-rule.hour = [14];
-rule.minute = 20;
+rule.hour = [21];
+rule.minute = 36;
 
 
 
-var yesterdayOffset = -1;
+var yesterdayOffset = -6;
 
 
 
@@ -161,11 +161,16 @@ var j = schedule.scheduleJob(rule, function() { // rule hour at 5 minutes
 
                         // if (audio.time === today || (audio.time === yesterday && artist.id === 15)) {
                         if (audio.time === yesterday) {
-
+				console.log('audio.time: ' + audio.time);
+				console.log('yesterday: '  + yesterday);
+				console.log('fileName:  ' + fileName);
                             var file = '../../' + artist.shortName + '/' + fileName;
 
                             if (!fs.existsSync(file)) { //
                                 // Do something
+
+
+                                console.log('fileName:  ' + fileName);
 
                                 // console.log(moment().format('MMMM Do YYYY, h:mm:ss a') + "downloading... " + audio.downUrl);
 
@@ -197,13 +202,21 @@ var j = schedule.scheduleJob(rule, function() { // rule hour at 5 minutes
                                 audio.size = artist.size;
                                 audio.artistId = artist.id;
                                 audio.artistName = artist.name;
-                                audio.path = "https://rawcdn.githack.com/quiet324/LiangYouRadioResource" + year + week + "/" + commitTag + "/" + artist.shortName + "/" + fileName;
+                                audio.path = 'https://rawcdn.githack.com/quiet324/LiangYouRadioResource' + year + week + "/" + commitTag + "/" + artist.shortName + "/" + fileName;
                                 audio.id = artist.id * 1000000 + parseInt(audio.time.substring(2), 10);
 
+
+
+				                                console.log('audio path: ' + audio.path);
+
+					console.log('audio time: ' + audio.time);
                                 if (fs.existsSync("./" + artist.shortName + audio.time + ".json")) {
 
                                     return;
                                 }
+
+
+				console.log('audio: ' + audio);
 
                                 fs.writeFileSync("./" + artist.shortName + audio.time + ".json", JSON.stringify(audio, null, '\t'));
 
